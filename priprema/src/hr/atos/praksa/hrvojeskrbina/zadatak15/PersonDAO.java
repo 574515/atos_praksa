@@ -9,9 +9,9 @@ public interface PersonDAO {
 
     public void delete(String oib) throws SQLException;
 
-    public Person getEmployee(String oib) throws SQLException;
+    public Person getPerson(String oib) throws SQLException;
 
-    public List<Person> getEmployees() throws SQLException;
+    public List<Person> getPersons() throws SQLException;
 
     public void update(Person emp) throws SQLException;
 }

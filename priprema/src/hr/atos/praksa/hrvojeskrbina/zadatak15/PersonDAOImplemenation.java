@@ -33,8 +33,8 @@ public class PersonDAOImplemenation implements PersonDAO {
     }
 
     @Override
-    public Person getEmployee(String oib) throws SQLException {
-        String query = "SELECT firstName, lastName, workplace, oib FROM korisnik WHERE oib=?";
+    public Person getPerson(String oib) throws SQLException {
+        String query = "SELECT * FROM korisnik WHERE oib=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, oib);
         Person person = new Person();
@@ -46,13 +46,14 @@ public class PersonDAOImplemenation implements PersonDAO {
             person.setLastName(rs.getString("lastName"));
             person.setWorkplace(rs.getString("workplace"));
             person.setOib(rs.getString("oib"));
+            person.setPassword(rs.getString("pwd"));
         }
         return (check == true) ? person : null;
     }
 
     @Override
-    public List<Person> getEmployees() throws SQLException {
-        String query = "SELECT firstName, lastName, workplace, oib FROM korisnik";
+    public List<Person> getPersons() throws SQLException {
+        String query = "SELECT * FROM korisnik";
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
         List<Person> ls = new ArrayList<Person>();
