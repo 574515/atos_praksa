@@ -2,25 +2,36 @@ package hr.atos.praksa.hrvojeskrbina.zadatak15;
 
 import java.sql.SQLException;
 import java.util.List;
-
 import javax.swing.JOptionPane;
 
 public class HandleUsers {
 
-    protected Person addNewUser() throws SQLException {
+    private final String[] ROLES = { "admin", "superuser", "user" };
+
+    protected void addNewUser() throws SQLException {
         Person person = new Person();
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         Boolean exists = true;
-        person.setFirstName(JOptionPane.showInputDialog("Unesite ime"));
-        person.setLastName(JOptionPane.showInputDialog("Unesite prezime"));
-        person.setWorkplace(JOptionPane.showInputDialog("Unesite mjesto rada"));
+        person.setFirstName(
+                JOptionPane.showInputDialog(null, "Unesite ime", "Ime zaposlenika", JOptionPane.QUESTION_MESSAGE));
+        person.setLastName(JOptionPane.showInputDialog(null, "Unesite prezime", "Prezime zaposlenika",
+                JOptionPane.QUESTION_MESSAGE));
+        person.setWorkplace(JOptionPane.showInputDialog(null, "Unesite mjesto rada", "Mjesto rada zaposlenika",
+                JOptionPane.QUESTION_MESSAGE));
         do {
-            person.setOib(JOptionPane.showInputDialog("Unesite OIB"));
+            person.setOib(
+                    JOptionPane.showInputDialog(null, "Unesite OIB", "OIB zaposlenika", JOptionPane.QUESTION_MESSAGE));
             exists = checkIfOibExists(person.getOib());
         } while (exists || !checkOib(person.getOib()));
-        person.setPassword(JOptionPane.showInputDialog("Unesite lozinku"));
+        person.setPassword(JOptionPane.showInputDialog(null, "Unesite lozinku", "Lozinka zaposlenika",
+                JOptionPane.QUESTION_MESSAGE));
         if (firstPerson())
             person.setRole("admin");
-        return person;
+        else
+            person.setRole(
+                    (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
+                            JOptionPane.QUESTION_MESSAGE, null, ROLES, ROLES[0]));
+        pdaoi.add(person);
     }
 
     protected void listAllUsers() throws SQLException {
@@ -49,7 +60,9 @@ public class HandleUsers {
             person.setOib(JOptionPane.showInputDialog("Unesite OIB", person.getOib()));
         } while (!checkOib(person.getOib()));
         person.setPassword(JOptionPane.showInputDialog("Unesite lozinku", person.getPassword()));
-        person.setRole(JOptionPane.showInputDialog("Unesite ulogu", person.getRole()));
+        person.setRole(
+                (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
+                        JOptionPane.QUESTION_MESSAGE, null, ROLES, person.getRole()));
         pdaoi.update(person);
     }
 

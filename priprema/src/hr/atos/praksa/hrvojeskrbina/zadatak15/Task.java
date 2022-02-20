@@ -1,18 +1,15 @@
 package hr.atos.praksa.hrvojeskrbina.zadatak15;
 
-import java.sql.Time;
-
 public class Task {
 
-    String name, description, taskType, status, startDate, endDate;
-    int complexity, id;
-    Time timeNeeded;
+    String name, description, taskType, status, startDate, endDate, user;
+    int complexity, id, timeNeeded;
 
     public Task() {
     }
 
-    public Task(String name, String description, String taskType, String status, int complexity, Time timeNeeded,
-            String startDate, String endDate) {
+    public Task(String name, String description, String taskType, String status, int complexity, int timeNeeded,
+            String startDate, String endDate, String user) {
         this.name = name;
         this.description = description;
         this.taskType = taskType;
@@ -21,6 +18,7 @@ public class Task {
         this.timeNeeded = timeNeeded;
         this.startDate = startDate;
         this.endDate = endDate;
+        this.user = user;
     }
 
     public String getName() {
@@ -63,11 +61,11 @@ public class Task {
         this.complexity = complexity;
     }
 
-    public Time getTimeNeeded() {
+    public int getTimeNeeded() {
         return timeNeeded;
     }
 
-    public void setTimeNeeded(Time timeNeeded) {
+    public void setTimeNeeded(int timeNeeded) {
         this.timeNeeded = timeNeeded;
     }
 
@@ -93,6 +91,14 @@ public class Task {
 
     public void setId(int id) {
         this.id = id;
+    }
+
+    public String getUser() {
+        return user;
+    }
+
+    public void setUser(String user) {
+        this.user = user;
     }
 
     @Override

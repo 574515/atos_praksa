@@ -9,16 +9,15 @@ public class Menus {
 
     protected static Person loggedUser;
 
-    protected static void login() throws SQLException {
+    protected static void login() throws SQLException, Exception {
         PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         List<Person> persons = pdaoi.getPeople();
         HandleUsers hu = new HandleUsers();
         Person login;
         if (persons.isEmpty()) {
             JOptionPane.showMessageDialog(null, "Trenutno nema korisnika.");
-            login = hu.addNewUser();
-            pdaoi.add(login);
-            loggedUser = login;
+            hu.addNewUser();
+            login();
         } else {
             String oib, password;
             boolean correctPw = false, exists = false;
@@ -52,14 +51,16 @@ public class Menus {
         if (loggedUser.getRole().equals("admin"))
             adminMenu(loggedUser);
         else if (loggedUser.getRole().equals("superuser"))
-            suMenu();
+            suMenu(loggedUser);
         else
-            userMenu();
+            userMenu(loggedUser);
     }
 
-    public static void adminMenu(Person person) throws SQLException {
+    public static void adminMenu(Person person) throws SQLException, Exception {
+        if (!Menus.loggedUser.getRole().equals("admin"))
+            throw new Exception("Nemate ovlasti za ovu radnju.");
         String choice;
-        String[] options = {
+        final String[] OPTIONS = {
                 "Kreiraj zadatak", "Izlistaj zadatke", "Izmijeni zadatak", "Obrisi zadatak",
                 "Kreiraj zaposlenika", "Izlistaj zaposlenike", "Izmijeni zaposlenika", "Obrisi zaposlenika",
                 "Izlaz" };
@@ -68,40 +69,90 @@ public class Menus {
         while (true) {
             choice = (String) JOptionPane.showInputDialog(null, "Odaberite opciju",
                     "Dobrodosli, " + person.getFullName() + " [" + person.getOib() + "]",
-                    JOptionPane.QUESTION_MESSAGE, null, options, options[0]);
+                    JOptionPane.QUESTION_MESSAGE, null, OPTIONS, OPTIONS[0]);
 
             if (choice == null)
                 break;
             else {
-                if (choice.equals(options[0])) {
+                if (choice.equals(OPTIONS[0])) {
                     task.addNewTask();
-                } else if (choice.equals(options[1])) {
+                } else if (choice.equals(OPTIONS[1])) {
                     task.listAllTasks();
-                } else if (choice.equals(options[2])) {
+                } else if (choice.equals(OPTIONS[2])) {
                     task.updateTask();
-                } else if (choice.equals(options[3])) {
+                } else if (choice.equals(OPTIONS[3])) {
                     task.deleteTask();
-                } else if (choice.equals(options[4])) {
+                } else if (choice.equals(OPTIONS[4])) {
                     user.addNewUser();
-                } else if (choice.equals(options[5])) {
+                } else if (choice.equals(OPTIONS[5])) {
                     user.listAllUsers();
-                } else if (choice.equals(options[6])) {
+                } else if (choice.equals(OPTIONS[6])) {
                     user.updateUser();
-                } else if (choice.equals(options[7])) {
+                } else if (choice.equals(OPTIONS[7])) {
                     user.deleteUser();
-                } else if (choice.equals(options[8])) {
+                } else if (choice.equals(OPTIONS[8])) {
                     break;
                 }
             }
         }
     }
 
-    public static void suMenu() {
+    public static void suMenu(Person person) throws SQLException, Exception {
+        if (!Menus.loggedUser.getRole().equals("admin") && !Menus.loggedUser.getRole().equals("superuser"))
+            throw new Exception("Nemate ovlasti za ovu radnju.");
+        String choice;
+        final String[] OPTIONS = { "Kreiraj zadatak", "Izlistaj zadatke", "Kreiraj zaposlenika", "Izlistaj zaposlenike",
+                "Izlaz" };
+        HandleTasks task = new HandleTasks();
+        HandleUsers user = new HandleUsers();
+        while (true) {
+            choice = (String) JOptionPane.showInputDialog(null, "Odaberite opciju",
+                    "Dobrodosli, " + person.getFullName() + " [" + person.getOib() + "]",
+                    JOptionPane.QUESTION_MESSAGE, null, OPTIONS, OPTIONS[0]);
 
+            if (choice == null)
+                break;
+            else {
+                if (choice.equals(OPTIONS[0])) {
+                    task.addNewTask();
+                } else if (choice.equals(OPTIONS[1])) {
+                    task.listAllTasks();
+                } else if (choice.equals(OPTIONS[2])) {
+                    user.addNewUser();
+                } else if (choice.equals(OPTIONS[3])) {
+                    user.listAllUsers();
+                } else if (choice.equals(OPTIONS[4])) {
+                    break;
+                }
+            }
+        }
     }
 
-    public static void userMenu() {
+    public static void userMenu(Person person) throws SQLException, Exception {
+        String choice;
+        final String[] OPTIONS = { "Izlistaj zadatke", "Izlistaj zaposlenike",
+                "--------------", "Izlaz" };
+        HandleTasks task = new HandleTasks();
+        HandleUsers user = new HandleUsers();
+        while (true) {
+            choice = (String) JOptionPane.showInputDialog(null, "Odaberite opciju",
+                    "Dobrodosli, " + person.getFullName() + " [" + person.getOib() + "]",
+                    JOptionPane.QUESTION_MESSAGE, null, OPTIONS, OPTIONS[0]);
 
+            if (choice == null)
+                break;
+            else {
+                if (choice.equals(OPTIONS[0])) {
+                    task.listAllTasks();
+                } else if (choice.equals(OPTIONS[1])) {
+                    user.listAllUsers();
+                } else if (choice.equals(OPTIONS[2])) {
+                    continue;
+                } else if (choice.equals(OPTIONS[3])) {
+                    break;
+                }
+            }
+        }
     }
 
 }

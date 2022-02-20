@@ -13,16 +13,17 @@ public class TaskDAOImplementation implements TaskDAO {
 
     @Override
     public int addTask(Task task) throws SQLException {
-        String query = "INSERT INTO zadatak VALUES (null, ?, ?, ?, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO zadatak VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, task.getName());
-        ps.setString(2, task.getDescription());
-        ps.setString(3, task.getTaskType());
-        ps.setString(4, task.getStatus());
-        ps.setInt(5, task.getComplexity());
-        ps.setTime(6, task.getTimeNeeded());
-        ps.setString(7, task.getStartDate());
-        ps.setString(8, task.getEndDate());
+        ps.setInt(1, task.getId());
+        ps.setString(2, task.getName());
+        ps.setString(3, task.getDescription());
+        ps.setString(4, task.getTaskType());
+        ps.setString(5, task.getStatus());
+        ps.setInt(6, task.getComplexity());
+        ps.setInt(7, task.getTimeNeeded());
+        ps.setString(8, task.getStartDate());
+        ps.setString(9, task.getEndDate());
         int n = ps.executeUpdate();
         return n;
     }
@@ -51,7 +52,7 @@ public class TaskDAOImplementation implements TaskDAO {
             task.setTaskType(rs.getString("task_type"));
             task.setStatus(rs.getString("status"));
             task.setComplexity(rs.getInt("complexity"));
-            task.setTimeNeeded(rs.getTime("time_needed"));
+            task.setTimeNeeded(rs.getInt("time_needed"));
             task.setStartDate(rs.getString("start_date"));
             task.setEndDate(rs.getString("end_date"));
         }
@@ -72,7 +73,7 @@ public class TaskDAOImplementation implements TaskDAO {
             task.setTaskType(rs.getString("task_type"));
             task.setStatus(rs.getString("status"));
             task.setComplexity(rs.getInt("complexity"));
-            task.setTimeNeeded(rs.getTime("time_needed"));
+            task.setTimeNeeded(rs.getInt("time_needed"));
             task.setStartDate(rs.getString("start_date"));
             task.setEndDate(rs.getString("end_date"));
             ls.add(task);
@@ -89,7 +90,7 @@ public class TaskDAOImplementation implements TaskDAO {
         ps.setString(3, task.getTaskType());
         ps.setString(4, task.getStatus());
         ps.setInt(5, task.getComplexity());
-        ps.setTime(6, task.getTimeNeeded());
+        ps.setInt(6, task.getTimeNeeded());
         ps.setString(7, task.getStartDate());
         ps.setString(8, task.getEndDate());
         ps.setInt(9, task.getId());
