@@ -97,6 +97,14 @@ public class Task {
 
     @Override
     public String toString() {
-        return "Name: " + name;
+        return "ID: " + id +
+                "\nNaziv: " + name +
+                "\nOpis: " + description +
+                "\nTip: " + taskType +
+                "\nStatus: " + status +
+                "\nKompleksnost: " + complexity +
+                "\nPotrebno vrijeme: " + timeNeeded +
+                "\nDatum pocetka: " + startDate +
+                "\nDatum zavrsetka: " + endDate;
     }
 }

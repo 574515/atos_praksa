@@ -11,7 +11,7 @@ public interface PersonDAO {
 
     public Person getPerson(String oib) throws SQLException;
 
-    public List<Person> getPersons() throws SQLException;
+    public List<Person> getPeople() throws SQLException;
 
     public void update(Person emp) throws SQLException;
 }

@@ -66,11 +66,10 @@ public class Person {
     @Override
     public String toString() {
         return "OIB: " + oib +
-                "\nFirst name: " + firstName +
-                "\nLast name: " + lastName +
-                "\nWorkplace: " + workplace +
-                "\nPassword: <hidden>" +
-                "\nRole: " + role;
+                "\nIme: " + firstName +
+                "\nPrezime: " + lastName +
+                "\nRadno mjesto: " + workplace +
+                "\nUloga: " + role;
     }
 
     public String getFullName() {

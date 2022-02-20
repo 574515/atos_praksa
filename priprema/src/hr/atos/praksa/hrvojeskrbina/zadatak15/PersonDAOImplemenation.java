@@ -54,7 +54,7 @@ public class PersonDAOImplemenation implements PersonDAO {
     }
 
     @Override
-    public List<Person> getPersons() throws SQLException {
+    public List<Person> getPeople() throws SQLException {
         String query = "SELECT * FROM korisnik";
         PreparedStatement ps = con.prepareStatement(query);
         ResultSet rs = ps.executeQuery();
@@ -74,14 +74,15 @@ public class PersonDAOImplemenation implements PersonDAO {
 
     @Override
     public void update(Person person) throws SQLException {
-        String query = "UPDATE korisnik SET firstName=?, lastName=?, workplace=?, password=?, role=? WHERE oib=?";
+        String query = "UPDATE korisnik SET oib=?, firstName=?, lastName=?, workplace=?, pwd=?, usr_role=? WHERE oib=?";
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, person.getFirstName());
-        ps.setString(2, person.getLastName());
-        ps.setString(3, person.getWorkplace());
-        ps.setString(4, person.getOib());
+        ps.setString(1, person.getOib());
+        ps.setString(2, person.getFirstName());
+        ps.setString(3, person.getLastName());
+        ps.setString(4, person.getWorkplace());
         ps.setString(5, person.getPassword());
         ps.setString(6, person.getRole());
+        ps.setString(7, person.getOib());
         ps.executeUpdate();
     }
 }

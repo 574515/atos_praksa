@@ -7,61 +7,7 @@ import javax.swing.JOptionPane;
 
 public class HandleUsers {
 
-    protected static Person loggedUser;
-
-    protected static void login() throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
-        List<Person> persons = pdaoi.getPersons();
-        Person login;
-        Menus menu = new Menus();
-        if (persons.isEmpty()) {
-            JOptionPane.showMessageDialog(null, "Trenutno nema korisnika.");
-            login = makeNewUser();
-            pdaoi.add(login);
-            loggedUser = login;
-        } else {
-            String oib, password;
-            boolean correctPw = false, exists = false;
-            int numOfTries = 1;
-            do {
-                do {
-                    oib = JOptionPane.showInputDialog("Unesite OIB");
-                } while (!checkOib(oib));
-                login = pdaoi.getPerson(oib);
-                if (login == null)
-                    System.out.println("Nema osobe sa tim OIB-om.");
-                else
-                    exists = true;
-            } while (!exists);
-            do {
-                String pwformat = "Unesite lozinku [" + numOfTries + " / 3]";
-                password = JOptionPane.showInputDialog(pwformat);
-                correctPw = login.getPassword().equals(password);
-                if (!correctPw) {
-                    numOfTries++;
-                } else {
-                    loggedUser = login;
-                    break;
-                }
-                if (numOfTries > 3) {
-                    System.out.println("Tri puta pogresan unos. Pokusajte ponovno.");
-                    System.exit(1);
-                }
-            } while (!correctPw);
-        }
-        if (loggedUser.getRole().equals("admin"))
-            menu.adminMenu(loggedUser);
-        else if (loggedUser.getRole().equals("superuser"))
-            menu.suMenu();
-        else
-            menu.userMenu();
-    }
-
-    protected static boolean checkOib(String oib) {
-        return oib.matches("^[0-9]{11}$");
-    }
-
-    private static Person makeNewUser() throws SQLException {
+    protected Person addNewUser() throws SQLException {
         Person person = new Person();
         Boolean exists = true;
         person.setFirstName(JOptionPane.showInputDialog("Unesite ime"));
@@ -77,9 +23,65 @@ public class HandleUsers {
         return person;
     }
 
+    protected void listAllUsers() throws SQLException {
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        List<Person> people = pdaoi.getPeople();
+        people.forEach((p) -> {
+            System.out.println(p.toString());
+            System.out.println("---------------------");
+        });
+    }
+
+    protected void updateUser() throws SQLException {
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        Person person;
+        String oib;
+        Boolean exists = false;
+        do {
+            oib = JOptionPane.showInputDialog("Unesite OIB");
+            exists = checkIfOibExists(oib);
+        } while (!exists || !checkOib(oib));
+        person = pdaoi.getPerson(oib);
+        person.setFirstName(JOptionPane.showInputDialog("Unesite ime", person.getFirstName()));
+        person.setLastName(JOptionPane.showInputDialog("Unesite prezime", person.getLastName()));
+        person.setWorkplace(JOptionPane.showInputDialog("Unesite mjesto rada", person.getWorkplace()));
+        do {
+            person.setOib(JOptionPane.showInputDialog("Unesite OIB", person.getOib()));
+        } while (!checkOib(person.getOib()));
+        person.setPassword(JOptionPane.showInputDialog("Unesite lozinku", person.getPassword()));
+        person.setRole(JOptionPane.showInputDialog("Unesite ulogu", person.getRole()));
+        pdaoi.update(person);
+    }
+
+    protected void deleteUser() throws SQLException {
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        Person person;
+        String oib;
+        Boolean exists = false;
+        do {
+            oib = JOptionPane.showInputDialog("Unesite OIB");
+            exists = checkIfOibExists(oib);
+        } while (!exists || !checkOib(oib));
+
+        person = pdaoi.getPerson(oib);
+        int answer = JOptionPane.showConfirmDialog(null,
+                "Obrisi korisnika [" + person.getFullName() + " - OIB: " + person.getOib() + "]", "Jeste li sigurni?",
+                JOptionPane.YES_NO_OPTION);
+        if (answer == JOptionPane.YES_OPTION) {
+            pdaoi.delete(oib);
+            if (firstPerson())
+                System.exit(0);
+        } else
+            return;
+    }
+
+    protected boolean checkOib(String oib) {
+        return oib.matches("^[0-9]{11}$");
+    }
+
     private static boolean checkIfOibExists(String oib) throws SQLException {
         PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
-        List<Person> persons = pdaoi.getPersons();
+        List<Person> persons = pdaoi.getPeople();
         for (Person p : persons)
             if (p.getOib().equals(oib))
                 return true;
@@ -88,7 +90,7 @@ public class HandleUsers {
 
     private static boolean firstPerson() throws SQLException {
         PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
-        List<Person> persons = pdaoi.getPersons();
+        List<Person> persons = pdaoi.getPeople();
         return persons.isEmpty();
     }
 }

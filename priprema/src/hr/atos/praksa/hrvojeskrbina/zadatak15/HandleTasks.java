@@ -33,10 +33,8 @@ public class HandleTasks {
         TaskDAOImplementation tdaoi = new TaskDAOImplementation();
         List<Task> tasks = tdaoi.getTasks();
         tasks.forEach((t) -> {
-            System.out.format(
-                    "ID: %d\nNaziv: %s\nOpis: %s\nTip: %s\nStatus: %s\nKompleksnost: %d\nPotrebno vrijeme: %tl\nDatum pocetka: %s\nDatum zavrsetka: %s\n-------------------------------",
-                    t.getId(), t.getName(), t.getDescription(), t.getTaskType(), t.getStatus(), t.getComplexity(),
-                    t.getTimeNeeded(), t.getStartDate(), t.getEndDate());
+            System.out.println(t.toString());
+            System.out.println("-------------------------------");
         });
     }
 

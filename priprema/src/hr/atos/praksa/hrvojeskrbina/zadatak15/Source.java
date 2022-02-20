@@ -6,10 +6,9 @@ import java.sql.SQLException;
 public class Source {
 
     public static void main(String[] args) throws SQLException {
-        Menus menu = new Menus();
         PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         Person person = pdaoi.getPerson("12312312312");
-        menu.adminMenu(person);
+        Menus.adminMenu(person);
         // HandleUsers.login();
         // if (HandleUsers.loggedUser != null) {
         // TaskDAOImplementation tdaoi = new TaskDAOImplementation();
