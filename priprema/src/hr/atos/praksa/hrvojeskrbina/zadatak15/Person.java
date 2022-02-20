@@ -2,7 +2,7 @@ package hr.atos.praksa.hrvojeskrbina.zadatak15;
 
 public class Person {
 
-    String firstName, lastName, workplace, oib, password;
+    String firstName, lastName, workplace, oib, password, role;
 
     public Person() {
     }
@@ -55,11 +55,25 @@ public class Person {
         this.password = password;
     }
 
+    public String getRole() {
+        return role;
+    }
+
+    public void setRole(String role) {
+        this.role = role;
+    }
+
     @Override
     public String toString() {
-        return "First name: " + firstName +
-                "Last name: " + lastName +
-                "Workplace: " + workplace +
-                "OIB: " + oib;
+        return "OIB: " + oib +
+                "\nFirst name: " + firstName +
+                "\nLast name: " + lastName +
+                "\nWorkplace: " + workplace +
+                "\nPassword: <hidden>" +
+                "\nRole: " + role;
+    }
+
+    public String getFullName() {
+        return this.firstName + " " + this.lastName;
     }
 }

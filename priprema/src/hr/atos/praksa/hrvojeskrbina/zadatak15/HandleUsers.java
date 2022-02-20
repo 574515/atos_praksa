@@ -12,13 +12,16 @@ public class HandleUsers {
     protected static void login() throws SQLException {
         PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         List<Person> persons = pdaoi.getPersons();
+        Person login;
+        Menus menu = new Menus();
         if (persons.isEmpty()) {
-            System.out.println("Trenutno nema korisnika.");
-            System.exit(0);
+            JOptionPane.showMessageDialog(null, "Trenutno nema korisnika.");
+            login = makeNewUser();
+            pdaoi.add(login);
+            loggedUser = login;
         } else {
             String oib, password;
             boolean correctPw = false, exists = false;
-            Person login;
             int numOfTries = 1;
             do {
                 do {
@@ -46,9 +49,46 @@ public class HandleUsers {
                 }
             } while (!correctPw);
         }
+        if (loggedUser.getRole().equals("admin"))
+            menu.adminMenu(loggedUser);
+        else if (loggedUser.getRole().equals("superuser"))
+            menu.suMenu();
+        else
+            menu.userMenu();
     }
 
     protected static boolean checkOib(String oib) {
         return oib.matches("^[0-9]{11}$");
+    }
+
+    private static Person makeNewUser() throws SQLException {
+        Person person = new Person();
+        Boolean exists = true;
+        person.setFirstName(JOptionPane.showInputDialog("Unesite ime"));
+        person.setLastName(JOptionPane.showInputDialog("Unesite prezime"));
+        person.setWorkplace(JOptionPane.showInputDialog("Unesite mjesto rada"));
+        do {
+            person.setOib(JOptionPane.showInputDialog("Unesite OIB"));
+            exists = checkIfOibExists(person.getOib());
+        } while (exists || !checkOib(person.getOib()));
+        person.setPassword(JOptionPane.showInputDialog("Unesite lozinku"));
+        if (firstPerson())
+            person.setRole("admin");
+        return person;
+    }
+
+    private static boolean checkIfOibExists(String oib) throws SQLException {
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        List<Person> persons = pdaoi.getPersons();
+        for (Person p : persons)
+            if (p.getOib().equals(oib))
+                return true;
+        return false;
+    }
+
+    private static boolean firstPerson() throws SQLException {
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        List<Person> persons = pdaoi.getPersons();
+        return persons.isEmpty();
     }
 }

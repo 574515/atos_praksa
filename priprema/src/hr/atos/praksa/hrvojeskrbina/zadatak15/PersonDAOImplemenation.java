@@ -13,13 +13,14 @@ public class PersonDAOImplemenation implements PersonDAO {
 
     @Override
     public int add(Person person) throws SQLException {
-        String query = "INSERT INTO korisnik VALUES (null, ?, ?, ?, ?, ?)";
+        String query = "INSERT INTO korisnik VALUES (?, ?, ?, ?, ?, ?)";
         PreparedStatement ps = con.prepareStatement(query);
-        ps.setString(1, person.getFirstName());
-        ps.setString(2, person.getLastName());
-        ps.setString(3, person.getWorkplace());
-        ps.setString(4, person.getOib());
+        ps.setString(1, person.getOib());
+        ps.setString(2, person.getFirstName());
+        ps.setString(3, person.getLastName());
+        ps.setString(4, person.getWorkplace());
         ps.setString(5, person.getPassword());
+        ps.setString(6, person.getRole());
         int n = ps.executeUpdate();
         return n;
     }
@@ -42,11 +43,12 @@ public class PersonDAOImplemenation implements PersonDAO {
         boolean check = false;
         while (rs.next()) {
             check = true;
+            person.setOib(rs.getString("oib"));
             person.setFirstName(rs.getString("firstName"));
             person.setLastName(rs.getString("lastName"));
             person.setWorkplace(rs.getString("workplace"));
-            person.setOib(rs.getString("oib"));
             person.setPassword(rs.getString("pwd"));
+            person.setRole(rs.getString("usr_role"));
         }
         return (check == true) ? person : null;
     }
@@ -59,10 +61,12 @@ public class PersonDAOImplemenation implements PersonDAO {
         List<Person> ls = new ArrayList<Person>();
         while (rs.next()) {
             Person person = new Person();
+            person.setOib(rs.getString("oib"));
             person.setFirstName(rs.getString("firstName"));
             person.setLastName(rs.getString("lastName"));
             person.setWorkplace(rs.getString("workplace"));
-            person.setOib(rs.getString("oib"));
+            person.setPassword(rs.getString("pwd"));
+            person.setRole(rs.getString("usr_role"));
             ls.add(person);
         }
         return ls;
@@ -70,13 +74,14 @@ public class PersonDAOImplemenation implements PersonDAO {
 
     @Override
     public void update(Person person) throws SQLException {
-        String query = "UPDATE korisnik SET firstName=?, lastName=?, workplace=?, password=? WHERE oib=?";
+        String query = "UPDATE korisnik SET firstName=?, lastName=?, workplace=?, password=?, role=? WHERE oib=?";
         PreparedStatement ps = con.prepareStatement(query);
         ps.setString(1, person.getFirstName());
         ps.setString(2, person.getLastName());
         ps.setString(3, person.getWorkplace());
         ps.setString(4, person.getOib());
         ps.setString(5, person.getPassword());
+        ps.setString(6, person.getRole());
         ps.executeUpdate();
     }
 }

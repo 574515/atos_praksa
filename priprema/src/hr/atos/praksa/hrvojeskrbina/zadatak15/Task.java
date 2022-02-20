@@ -87,7 +87,7 @@ public class Task {
         this.endDate = endDate;
     }
 
-    public int getid() {
+    public int getId() {
         return id;
     }
 

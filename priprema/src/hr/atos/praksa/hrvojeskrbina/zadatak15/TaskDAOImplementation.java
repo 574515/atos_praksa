@@ -92,6 +92,7 @@ public class TaskDAOImplementation implements TaskDAO {
         ps.setTime(6, task.getTimeNeeded());
         ps.setString(7, task.getStartDate());
         ps.setString(8, task.getEndDate());
+        ps.setInt(9, task.getId());
         ps.executeUpdate();
     }
 }

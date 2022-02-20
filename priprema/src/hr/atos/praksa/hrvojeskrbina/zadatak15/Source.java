@@ -1,11 +1,15 @@
 package hr.atos.praksa.hrvojeskrbina.zadatak15;
 
 import java.sql.SQLException;
-import java.util.List;
+// import java.util.List;
 
 public class Source {
 
     public static void main(String[] args) throws SQLException {
+        Menus menu = new Menus();
+        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        Person person = pdaoi.getPerson("12312312312");
+        menu.adminMenu(person);
         // HandleUsers.login();
         // if (HandleUsers.loggedUser != null) {
         // TaskDAOImplementation tdaoi = new TaskDAOImplementation();
@@ -17,13 +21,13 @@ public class Source {
         // tdaoi.getTask(tasks.get(0).getid());
         // } else
         // System.out.println("Nope");
-        TaskDAOImplementation tdaoi = new TaskDAOImplementation();
-        HandleTasks ht = new HandleTasks();
-        tdaoi.addTask(ht.addNewTask());
+        // TaskDAOImplementation tdaoi = new TaskDAOImplementation();
+        // HandleTasks ht = new HandleTasks();
+        // tdaoi.addTask(ht.addNewTask());
 
-        List<Task> tasks = tdaoi.getTasks();
+        // List<Task> tasks = tdaoi.getTasks();
 
-        System.out.println(tdaoi.getTask(tasks.get(0).getid()));
+        // System.out.println(tdaoi.getTask(tasks.get(0).getid()));
     }
 
 }
