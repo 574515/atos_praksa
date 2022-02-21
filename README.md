@@ -1,0 +1,2 @@
+# CMake zadaci
+### Helpful tips
