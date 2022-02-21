@@ -4,8 +4,8 @@ import java.sql.SQLException;
 
 public class Source {
 
-    public static void main(String[] args) throws SQLException, Exception {
-        new Login().setVisible(true);
-    }
+	public static void main(String[] args) throws SQLException {
+		new Login();
+	}
 
 }

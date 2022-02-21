@@ -7,103 +7,153 @@ import javax.swing.JOptionPane;
 public class HandleUsers {
 
     private final String[] ROLES = { "admin", "superuser", "user" };
+    private Parsers parser = new Parsers();
+    private PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
 
     protected void addNewUser() throws SQLException {
         Person person = new Person();
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         Boolean exists = true;
+        String oib;
+
         person.setFirstName(
                 JOptionPane.showInputDialog(null, "Unesite ime", "Ime zaposlenika", JOptionPane.QUESTION_MESSAGE));
+        if (person.getFirstName() == null)
+            return;
         person.setLastName(JOptionPane.showInputDialog(null, "Unesite prezime", "Prezime zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
+        if (person.getLastName() == null)
+            return;
         person.setWorkplace(JOptionPane.showInputDialog(null, "Unesite mjesto rada", "Mjesto rada zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
+        if (person.getWorkplace() == null)
+            return;
         do {
-            person.setOib(
-                    JOptionPane.showInputDialog(null, "Unesite OIB", "OIB zaposlenika", JOptionPane.QUESTION_MESSAGE));
-            exists = checkIfOibExists(person.getOib());
-        } while (exists || !checkOib(person.getOib()));
+            oib = JOptionPane.showInputDialog(null, "Unesite OIB", "OIB zaposlenika", JOptionPane.QUESTION_MESSAGE);
+            exists = parser.checkIfOibExists(oib, pdaoi);
+            if (oib == null)
+                return;
+            else if (exists)
+                JOptionPane.showMessageDialog(null, "Korisnik sa OIB-om [" + oib + "] vec postoji.", "Pogreska unosa.",
+                        JOptionPane.ERROR_MESSAGE);
+        } while (exists || !parser.checkOib(oib));
+        person.setOib(oib);
         person.setPassword(JOptionPane.showInputDialog(null, "Unesite lozinku", "Lozinka zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
-        if (firstPerson())
+        if (person.getPassword() == null)
+            return;
+        if (parser.firstPerson(pdaoi))
             person.setRole("admin");
         else
             person.setRole(
                     (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
                             JOptionPane.QUESTION_MESSAGE, null, ROLES, ROLES[0]));
-        pdaoi.add(person);
+        if (person.getRole() == null)
+            return;
+        pdaoi.addPerson(person);
     }
 
     protected void listAllUsers() throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         List<Person> people = pdaoi.getPeople();
+
+        System.out.println("--------------------------");
         people.forEach((p) -> {
             System.out.println(p.toString());
-            System.out.println("---------------------");
+            System.out.println("--------------------------");
         });
     }
 
     protected void updateUser() throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
         Person person;
         String oib;
-        Boolean exists = false;
+        Boolean format, exists = false;
+
         do {
             oib = JOptionPane.showInputDialog("Unesite OIB");
-            exists = checkIfOibExists(oib);
-        } while (!exists || !checkOib(oib));
+            exists = parser.checkIfOibExists(oib, pdaoi);
+            if (oib == null)
+                return;
+            else if (!exists)
+                JOptionPane.showMessageDialog(null, "Korisnik sa OIB-om [" + oib + "] ne postoji.", "Nije pronadjen.",
+                        JOptionPane.ERROR_MESSAGE);
+        } while (!exists || !parser.checkOib(oib));
         person = pdaoi.getPerson(oib);
         person.setFirstName(JOptionPane.showInputDialog("Unesite ime", person.getFirstName()));
+        if (person.getFirstName() == null)
+            return;
         person.setLastName(JOptionPane.showInputDialog("Unesite prezime", person.getLastName()));
+        if (person.getLastName() == null)
+            return;
         person.setWorkplace(JOptionPane.showInputDialog("Unesite mjesto rada", person.getWorkplace()));
+        if (person.getWorkplace() == null)
+            return;
         do {
-            person.setOib(JOptionPane.showInputDialog("Unesite OIB", person.getOib()));
-        } while (!checkOib(person.getOib()));
+            oib = JOptionPane.showInputDialog("Unesite OIB", person.getOib());
+            if (oib == null)
+                return;
+            format = parser.checkOib(oib);
+            if (!format)
+                JOptionPane.showMessageDialog(null, "Format OIB-a [" + oib + "] nije dobar.", "Nije pronadjen.",
+                        JOptionPane.ERROR_MESSAGE);
+        } while (!format);
+        person.setOib(oib);
         person.setPassword(JOptionPane.showInputDialog("Unesite lozinku", person.getPassword()));
-        person.setRole(
-                (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
-                        JOptionPane.QUESTION_MESSAGE, null, ROLES, person.getRole()));
-        pdaoi.update(person);
+        if (person.getPassword() == null)
+            return;
+        System.out.println(Menus.loggedUser.toString());
+        if (Menus.loggedUser.getOib().equals(oib)) {
+            JOptionPane.showMessageDialog(null, "Ne mozete sami sebi promijeniti ulogu.", "Nije dozvoljeno.",
+                    JOptionPane.INFORMATION_MESSAGE);
+        } else {
+            person.setRole(
+                    (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
+                            JOptionPane.QUESTION_MESSAGE, null, ROLES, person.getRole()));
+            if (person.getRole() == null)
+                return;
+        }
+        pdaoi.updatePerson(person);
     }
 
     protected void deleteUser() throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
+        TaskUserDAOImplementation tudaoi = new TaskUserDAOImplementation();
         Person person;
         String oib;
         Boolean exists = false;
+
         do {
             oib = JOptionPane.showInputDialog("Unesite OIB");
-            exists = checkIfOibExists(oib);
-        } while (!exists || !checkOib(oib));
+            exists = parser.checkIfOibExists(oib, pdaoi);
+            if (oib == null)
+                return;
+            else if (!exists)
+                JOptionPane.showMessageDialog(null, "Korisnik sa OIB-om [" + oib + "] ne postoji.", "Nije pronadjen.",
+                        JOptionPane.ERROR_MESSAGE);
+        } while (!exists || !parser.checkOib(oib));
+
+        List<Task> tasks = tudaoi.getTasks(oib);
+        int answer, numOfTasks = tasks.size();
 
         person = pdaoi.getPerson(oib);
-        int answer = JOptionPane.showConfirmDialog(null,
-                "Obrisi korisnika [" + person.getFullName() + " - OIB: " + person.getOib() + "]", "Jeste li sigurni?",
+        answer = JOptionPane.showConfirmDialog(null,
+                "Obrisi korisnika [" + person.getFullName() + " - OIB: " + person.getOib() + "]\nKorisnik ima "
+                        + numOfTasks + " zadatak(a).",
+                "Jeste li sigurni?",
                 JOptionPane.YES_NO_OPTION);
         if (answer == JOptionPane.YES_OPTION) {
-            pdaoi.delete(oib);
-            if (firstPerson())
+            tudaoi.deleteTUPerUser(oib);
+            pdaoi.deletePerson(oib);
+            if (parser.firstPerson(pdaoi))
                 System.exit(0);
         } else
             return;
     }
 
-    protected boolean checkOib(String oib) {
-        return oib.matches("^[0-9]{11}$");
+    protected void getByWorkplace() throws SQLException {
+        String workplace = JOptionPane.showInputDialog("Unesite radno mjesto");
+        if (workplace == null)
+            return;
+        List<Person> people = pdaoi.getByWorkPlace(workplace);
+        JOptionPane.showMessageDialog(null, "Broj radnika: " + people.size(), "Rezultati za [" + workplace + "]",
+                JOptionPane.INFORMATION_MESSAGE);
     }
 
-    private static boolean checkIfOibExists(String oib) throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
-        List<Person> persons = pdaoi.getPeople();
-        for (Person p : persons)
-            if (p.getOib().equals(oib))
-                return true;
-        return false;
-    }
-
-    private static boolean firstPerson() throws SQLException {
-        PersonDAOImplemenation pdaoi = new PersonDAOImplemenation();
-        List<Person> persons = pdaoi.getPeople();
-        return persons.isEmpty();
-    }
 }

@@ -11,7 +11,7 @@
 3. [x] <span style="color: rgba(242, 38, 19, 0.8);">Kreiraj tzv. "Hello World" aplikaciju tj. aplikaciju koja će nakon pokretanja na konzolu ispisati riječi "Hello World, ovo je prva java aplikacija.".</span>
 -----
 
-4. [x] <span style="color: rgba(242, 38, 19, 0.8);">Kreiraj program koji ima definirano polje pet različitih cjelobrojnih vrijednosti. Program treba provjeriti je li svaka od pet vrijednosti paran ili neparan broj i da li je višekratnik od jednog od idučih brojeva: 3, 5 ili 11, te ispisati poruku na konzolu u obliku „XY je paran broj“ ili „XY je neparan broj“ te „XY je višekratnik od 3 “ (ili 5 ili 11, zamijeniti broj u tekstu).</span>
+4. [x] <span style="color: rgba(242, 38, 19, 0.8);">Kreiraj program koji ima definirano polje pet različitih cjelobrojnih vrijednosti. Program treba provjeriti je li svaka od pet vrijednosti paran ili neparan broj i da li je višekratnik od jednog od idućih brojeva: 3, 5 ili 11, te ispisati poruku na konzolu u obliku „XY je paran broj“ ili „XY je neparan broj“ te „XY je višekratnik od 3 “ (ili 5 ili 11, zamijeniti broj u tekstu).</span>
 -----
 
 5. [x] <span style="color: rgba(242, 38, 19, 0.8);">Kreiraj program koji ima definiran početak i kraj intervala te jedan brojač. Neka početak intervala bude manji od 10, a kraj intervala veći od 100. Program treba provjeriti jesu li početak i kraj intervala ispravno definirani te ispisati poruku o pogrešci ukoliko nisu. Ukoliko jesu program treba za svaki broj u zadanom intervalu napraviti sljedeće:
@@ -83,7 +83,7 @@ P  U  S  Č  P  S  N
     - Popis klasa koje bi mogle biti korisne:
         - java.io.File (za manipuliranje datotekama / direktorijima)
         - java.io.BufferedReader (za čitanje sadržaja datoteke)
-        - java.lang.String (za manipulaciju sa tekstom)
+        - java.lang.String (za manipulaciju s tekstom)
 -----
 
 11. [x] <span style="color: rgba(46, 204, 113, 1);">Kreiraj program koji će omogućiti interakciju s korisnikom na jednom od tri ponuđena jezika. Interakcija se treba sastojati od nekoliko međusobno izmijenjenih poruka. Prijevodi na pojedini jezik trebaju biti dostupni unutar java properties datoteka za svaki jezik odvojeno.
@@ -113,7 +113,7 @@ zeleno (2)
 14. [x] <span style="color: rgba(46, 204, 113, 1);">Kreiraj program kojim će korisnik izračunati površinu ispod neke krivulje opisane funkcijom y=f(x)=A*funk(x)+B od neke početne do krajnje točke (T1,T2). Izračun izvesti numeričkom metodom. Ulazni parametri su A, B, T1 i T2 te funkcija koja može biti sinus, kosinus, tangens ili kotangens. Pri rješavanju zadatka obavezno koristiti više klasa i(li) sučelja te nasljeđivanje.
 -----
 
-15. [] <span style="color: rgba(46, 204, 113, 1);">Za jednu tvrtku potrebno je napraviti demo aplikaciju u kojoj će moći raditi administraciju zaposlenika te njihbovih radnih zadataka. Potrebno je omogućiti administraciju na nekoliko razina tj. potrebno je definirati korisnička prava korisnika aplikacije po grupama: "admin", "superuser" i "user" tako da se omoguće sljedeće akcije:
+15. [x] <span style="color: rgba(46, 204, 113, 1);">Za jednu tvrtku potrebno je napraviti demo aplikaciju u kojoj će moći raditi administraciju zaposlenika te njihovih radnih zadataka. Potrebno je omogućiti administraciju na nekoliko razina tj. potrebno je definirati korisnička prava korisnika aplikacije po grupama: "admin", "superuser" i "user" tako da se omoguće sljedeće akcije:
     <ul style="color: rgba(46, 204, 113, 1);">
     <li>kreiranje zadataka i zaposlenika (admin, superuser)</li>
     <li>izlistanje zadataka i zaposlenika (admin, superuser, user)</li>
@@ -148,6 +148,4 @@ Zadaci
   završni datum i vrijeme
   (napomena, početak i završetak ne znače nužno da je potrošeno vrijeme njihova razlika)
 ```
-## Teorijski zadaci
-----
-<!-- TODO: Solve and paste tasks -->
+## Teorijski zadaci ~~(riješio)~~

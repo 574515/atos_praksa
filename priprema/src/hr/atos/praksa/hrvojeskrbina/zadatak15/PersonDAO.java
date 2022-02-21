@@ -5,13 +5,16 @@ import java.util.List;
 
 public interface PersonDAO {
 
-    public int add(Person emp) throws SQLException;
+	public int addPerson(Person person) throws SQLException;
 
-    public void delete(String oib) throws SQLException;
+	public void deletePerson(String oib) throws SQLException;
 
-    public Person getPerson(String oib) throws SQLException;
+	public Person getPerson(String oib) throws SQLException;
 
-    public List<Person> getPeople() throws SQLException;
+	public List<Person> getByWorkPlace(String workplace) throws SQLException;
 
-    public void update(Person emp) throws SQLException;
+	public List<Person> getPeople() throws SQLException;
+
+	public void updatePerson(Person person) throws SQLException;
+
 }

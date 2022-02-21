@@ -4,6 +4,7 @@ import java.sql.SQLException;
 import java.util.List;
 
 public interface TaskDAO {
+
     public int addTask(Task task) throws SQLException;
 
     public void deleteTask(int id) throws SQLException;
@@ -13,4 +14,5 @@ public interface TaskDAO {
     public List<Task> getTasks() throws SQLException;
 
     public void updateTask(Task task) throws SQLException;
+
 }
