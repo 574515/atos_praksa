@@ -1,7 +1,7 @@
 #include <iostream>
 #include <cstring>
-#include "../include/Professor/Professor.h"
-#include "../include/Student/Student.h"
+#include "Professor.h"
+#include "Student.h"
 
 int main(){
     std::string name;

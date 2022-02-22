@@ -1,5 +1,5 @@
 #include <iostream> 
 #include <cstring>
-#include "../include/Student/Student.h"
+#include "Student.h"
 
 Student::Student(std::string name){ studentName = name; }
