@@ -30,21 +30,21 @@ public class Person implements Workout {
 
     @Override
     public void goRun() {
-        System.out.println(this.getFullName() + " went for a run.");
+        System.out.println(getFullName() + " went for a run.");
     }
 
     @Override
     public void goLift() {
-        System.out.println(this.getFullName() + " lifted some weights.");
+        System.out.println(getFullName() + " lifted some weights.");
     }
 
     @Override
     public void goDoSquats() {
-        System.out.println(this.getFullName() + " did few squats.");
+        System.out.println(getFullName() + " did few squats.");
     }
 
     @Override
     public void goEatHealthy() {
-        System.out.println(this.getFullName() + " had a healthy meal.");
+        System.out.println(getFullName() + " had a healthy meal.");
     }
 }

@@ -4,29 +4,32 @@ import java.util.Random;
 
 public class Source {
 
-	public static void main(String[] args) {
-		int numOfPerson = 5;
-		Person persons[] = new Person[numOfPerson];
-		for (int i = 0; i < numOfPerson; i++) {
-			persons[i] = new Person(getFirstName(), getLastName());
-			persons[i].goRun();
-			persons[i].goDoSquats();
-			persons[i].goEatHealthy();
-			persons[i].goLift();
-			System.out.println("--------------------------------");
-		}
-	}
+    static final int NUM_OF_PEOPLE = 5;
 
-	private static String getFirstName() {
-		Random rand = new Random();
-		String[] fNames = {"John", "Eva", "Martin", "Tina", "James", "Anna", "Frank", "Samantha"};
-		return fNames[rand.nextInt(fNames.length)];
-	}
+    public static void main(String[] args) {
 
-	private static String getLastName() {
-		Random rand = new Random();
-		String[] lNames = {"Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez", "Martinez"};
-		return lNames[rand.nextInt(lNames.length)];
-	}
+        Person people[] = new Person[NUM_OF_PEOPLE];
+        for (int i = 0; i < NUM_OF_PEOPLE; i++) {
+            people[i] = new Person(getFirstName(), getLastName());
+            people[i].goRun();
+            people[i].goDoSquats();
+            people[i].goEatHealthy();
+            people[i].goLift();
+            System.out.println("--------------------------------");
+        }
+    }
+
+    private static String getFirstName() {
+        Random rand = new Random();
+        String[] fNames = { "John", "Eva", "Martin", "Tina", "James", "Anna", "Frank", "Samantha" };
+        return fNames[rand.nextInt(fNames.length)];
+    }
+
+    private static String getLastName() {
+        Random rand = new Random();
+        String[] lNames = { "Smith", "Johnson", "Williams", "Brown", "Jones", "Garcia", "Miller", "Davis", "Rodriguez",
+                "Martinez" };
+        return lNames[rand.nextInt(lNames.length)];
+    }
 
 }
