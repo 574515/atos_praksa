@@ -6,7 +6,6 @@ import javax.swing.border.EmptyBorder;
 import java.awt.*;
 import java.awt.event.*;
 
-@SuppressWarnings("serial")
 public class Login extends JFrame implements ActionListener {
 
     private final JPanel PANEL;

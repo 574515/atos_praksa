@@ -12,26 +12,26 @@ public class HandleUsers {
 
     protected void addNewUser() throws SQLException {
         Person person = new Person();
-        Boolean exists = true;
+        boolean exists = true, isValid = true;
         String oib;
 
         person.setFirstName(
                 JOptionPane.showInputDialog(null, "Unesite ime", "Ime zaposlenika", JOptionPane.QUESTION_MESSAGE));
         if (person.getFirstName() == null)
-            return;
+            isValid = false;
         person.setLastName(JOptionPane.showInputDialog(null, "Unesite prezime", "Prezime zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
         if (person.getLastName() == null)
-            return;
+            isValid = false;
         person.setWorkplace(JOptionPane.showInputDialog(null, "Unesite mjesto rada", "Mjesto rada zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
         if (person.getWorkplace() == null)
-            return;
+            isValid = false;
         do {
             oib = JOptionPane.showInputDialog(null, "Unesite OIB", "OIB zaposlenika", JOptionPane.QUESTION_MESSAGE);
             exists = parser.checkIfOibExists(oib, pdaoi);
             if (oib == null)
-                return;
+                isValid = false;
             else if (exists)
                 JOptionPane.showMessageDialog(null, "Korisnik sa OIB-om [" + oib + "] vec postoji.", "Pogreska unosa.",
                         JOptionPane.ERROR_MESSAGE);
@@ -40,7 +40,7 @@ public class HandleUsers {
         person.setPassword(JOptionPane.showInputDialog(null, "Unesite lozinku", "Lozinka zaposlenika",
                 JOptionPane.QUESTION_MESSAGE));
         if (person.getPassword() == null)
-            return;
+            isValid = false;
         if (parser.firstPerson(pdaoi))
             person.setRole("admin");
         else
@@ -48,8 +48,12 @@ public class HandleUsers {
                     (String) JOptionPane.showInputDialog(null, "Uloga korisnika", "Odaberite ulogu korisnika",
                             JOptionPane.QUESTION_MESSAGE, null, ROLES, ROLES[0]));
         if (person.getRole() == null)
+            isValid = false;
+
+        if (isValid)
+            pdaoi.addPerson(person);
+        else
             return;
-        pdaoi.addPerson(person);
     }
 
     protected void listAllUsers() throws SQLException {
